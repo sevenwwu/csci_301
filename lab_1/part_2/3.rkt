@@ -7,7 +7,7 @@
 (list 3 '(1 2))         ; '(3 (1 2))
 (list '(1 5) '(2 3))    ; '((1 5) (2 3))
 
-                        ; append add to front each element in arg1 (which is a list) to arg2's list
+                        ; append adds to front each element in arg1 (which is a list) to arg2's list
 (append '(1) '(2 3))    ; '(1 2 3)
 (append '(1 5) '(2 3))  ; '((1 5 2 3))
 
