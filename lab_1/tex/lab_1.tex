@@ -43,6 +43,8 @@
 
     ; car returns the first symbol
     ; cdr returns a sub-list with the first symbol removed
+    ; the single quote indicates that the following data should
+    ; not be evaluated an instead be treated as a list of data.
 \end{lstlisting}
 
 \subsection*{2}
@@ -113,8 +115,9 @@
 \end{adjustwidth}
 
 \begin{lstlisting}[language=lisp,style=redStyle]
-                                        ; equal? does a recursive value 
-                                        ; equality comparison
+                                        ; equal? does a value and type
+                                        ; equality comparison and if
+                                        ; both are equal, return #t
     (equal? '(hi there) '(hi there))    ; #t
     
                                         ; eqv? does a reference equality 
@@ -123,8 +126,9 @@
     (eqv? '(hi there) '(hi there))      ; #f 
     
                                         ; = does a numeral equality comparison 
-                                        ; (with coercion)
-    (= '(hi there) '(hi there))         ; error -> contract violation
+                                        ; (with type coercion)
+    (= '(hi there) '(hi there))         ; error -> contract violation (strings
+                                        ; cannot be coerced to numerals)
     
     
     (equal? '(hi there) '(bye now))     ; #f
@@ -154,7 +158,7 @@
     (if (equal? 8 3) 
         9 
         10
-    ) 
+    )               ; returns 10
 \end{lstlisting}
 \begin{adjustwidth}{2em}{0em}
     \textbf{Modify the condition following if to get a different value to return. }
@@ -164,7 +168,7 @@
     (if (equal? 8 (* 3 8/3))
         9
         10
-    )
+    )               ; returns 9
 \end{lstlisting}
 
 \subsection*{3}
@@ -204,9 +208,9 @@
     ) 
 
     ; the cond function iterates over each argument, of which each is 
-    ; a boolean expression pair.
+    ; a (boolean, expression) pair.
     ; for each argument, if the boolean is #f, go to the next argument, 
-    ; if #t, then return the expression.
+    ; if #t, then return the associated expression.
     ; the else clause will always return its expression if reached.
 \end{lstlisting}
 
@@ -271,7 +275,7 @@
 \begin{lstlisting}[language=lisp,style=redStyle]
     ; yes they serve the same purpose, one defines a symbol to refer the 
     ; procedure (+ x 1) with parameter x, and the other defines a symbol 
-    ; to point to a lambda function that accepts 1 parameter x
+    ; to point to a lambda function that accepts one parameter: x
 \end{lstlisting}
 
 \subsection*{3}
@@ -289,9 +293,13 @@
 \end{adjustwidth}
 
 \begin{lstlisting}[language=lisp,style=redStyle]
-    (another-add-one 5) --> returns 6
+    (another-add-one 5) returns 6
+
+    [another-add-one] --> [add-one x] --> (+ x 1)
+
     ; we have the symbol another-add-one refer to the procedure add-one, 
-    ; this effectively creates an alias for the procedure add-one
+    ; this effectively creates an alias for the procedure add-one, then
+    ; we evaluate add-one as normal
 \end{lstlisting}
 
 \subsection*{4}
