@@ -28,7 +28,7 @@
     (if [<= (length lst) 1]
         #f 
         (or 
-            (= (+ (car lst) (car (cdr lst))) val)   ; grab current and next time and check if 
+            (= (+ (car lst) (car (cdr lst))) val)   ; grab current and next and check if 
                                                     ; they sum to `val`.
 
             (pair-sum? (cdr lst) val)               ; if not, check the next pair which is
