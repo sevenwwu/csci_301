@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+
+% For setting page numbering, but you've already disabled it.
+\pagenumbering{gobble}
+
+\title{Homework 1}
+\author{Seven Lewis}
+\date{4/12/24}
+
+% Defining custom commands for colored text
+\newcommand{\problem}[1]{\textcolor{black}{#1}}
+\newcommand{\solution}[1]{\textcolor{red}{#1}}
+
+% Alternatively, defining environments for problems and solutions
+\newenvironment{Problem}
+{\color{black}}
+{}
+
+\newenvironment{Solution}
+{\color{red}}
+{}
+
+\begin{document}
+
+\maketitle
+
+% Using custom commands for inline coloring
+\section*{Problem 1}
+\problem{What is the capital of France?}
+
+\solution{The capital of France is Paris.}
+
+% Using environments for block coloring
+\begin{Problem}
+\section*{Problem 2}
+What is the sum of 2 and 3?
+\end{Problem}
+
+\begin{Solution}
+The sum of 2 and 3 is 5.
+\end{Solution}
+
+\end{document}
