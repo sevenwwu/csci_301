@@ -173,7 +173,7 @@
     \phantom{ }
 
     \hspace*{5.71em}$= 190 + x = |U| = 200$
-    
+
     \hspace*{5.71em}$x = 10$
 
     \phantom{ }
@@ -316,12 +316,91 @@
     \phantom{ }
 \end{Solution}
 
+\vspace*{16em}
+
 \section*{4. }
 
 \begin{Problem}
     (5pts) Prove if $n \in \mathbb Z$, then $n^2+5n-3$ is odd.
 \end{Problem}
 
+
+\begin{Solution}
+    Direct Proof:
+
+    \begin{adjustwidth}{2em}{0em}
+            
+
+        Either, $n$ is even or odd.
+
+        \phantom{ }
+
+        \textbf{Case 1: }$n$ is even
+
+        \begin{adjustwidth}{2em}{0em}
+            $n$ can be expressed as $2|n$, which means that
+            $\exists a \in \mathbb Z, 2a = n$.
+
+            \phantom{ }
+
+            Substituting $n$, we get $(2a)^2 + 5(2a) - 3$
+
+            \hspace*{9em}$= 4a^2 + 10a - 3$
+
+            \hspace*{9em}$= 4a^2 + 10a - 4 + 1$
+
+            \hspace*{9em}$= 2(2a^2 + 5a - 2) + 1$
+
+            \phantom{ }
+
+            An odd number is a number of the form $2b + 1$
+            for some integer $b$. 
+            
+            Because $2a^2 + 5a - 2$ is an
+            integer, $n^2 + 5n - 3$ is odd. 
+        \end{adjustwidth}
+
+        \phantom{ }
+
+        \textbf{Case 2: }$n$ is odd
+
+        \begin{adjustwidth}{2em}{0em}
+            $n$ can be expressed as $2|n+1$, which means that
+            $\exists a \in \mathbb Z, 2a - 1 = n$.
+
+            \phantom{ }
+
+            Substituting $n$, we get $(2a - 1)^2+5(2a - 1) - 3$
+
+            \hspace*{9em}$= 4a^2-4a+1+10a-5-3$
+
+            \hspace*{9em}$= 4a^2+6a-7$
+
+            \hspace*{9em}$= 4a^2+6a-8+1$
+
+            \hspace*{9em}$=2(2a^2+3a-4)+1$
+
+            \phantom{ }
+
+            An odd number is a number of the form $2b + 1$
+            for some integer $b$. 
+            
+            Because $2a^2 + 5a - 2$ is an
+            integer, $n^2 + 5n - 3$ is odd. 
+        \end{adjustwidth}
+
+        \phantom{ }
+
+        $n^2 + 5n - 3$ is odd in every case $n \in \mathbb Z$.
+
+        \phantom{ }
+
+        Thus, if $n \in \mathbb Z$, then $n^2 + 5n - 3$ is odd. 
+    \end{adjustwidth}
+    \phantom{ }
+\end{Solution}
+
+\vspace*{17em}
 
 \section*{5. }
 
@@ -331,6 +410,40 @@
 
     If $ab$ is even, then $a$ and $b$ are not both odd.
 \end{Problem}
+
+\begin{Solution}
+    Proof by Contraposition:
+
+    \begin{adjustwidth}{2em}{0em}
+        $a$ and $b$ are both odd, thus $ab$ is odd. 
+
+        \phantom{ }
+
+        Both $a$ and $b$ are of the form $2x + 1$ and $2y + 1$, 
+        respectively, where $x,y \in \mathbb Z$. 
+
+        \phantom{ }
+
+        Substituting $a$ and $b$, $ab \implies (2x + 1)(2y + 1)$
+        
+        \hspace*{12em}$= 4xy + 2x + 2y + 1$ 
+        
+        \hspace*{12em}$= 2(2xy + x + y) + 1$.
+
+        \phantom{ }
+
+        An odd number is a number of the form $2\lambda + 1$
+        for some integer $\lambda$.
+
+        $2xy + x + y$ is an integer, so $ab$ is odd.
+
+        \phantom{ }
+
+        Thus, when $a$ and $b$ are both odd, $ab$ is odd.
+
+    \end{adjustwidth}
+    \phantom{ }
+\end{Solution}
 
 
 
