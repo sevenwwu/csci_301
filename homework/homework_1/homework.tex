@@ -2,45 +2,240 @@
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
 \usepackage{xcolor}
+\usepackage{changepage}
+\usepackage{titling}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\droptitle = -1in
 
 % For setting page numbering, but you've already disabled it.
+\setlength{\parindent}{0cm}
 \pagenumbering{gobble}
 
 \title{Homework 1}
 \author{Seven Lewis}
 \date{4/12/24}
 
+
 % Defining custom commands for colored text
-\newcommand{\problem}[1]{\textcolor{black}{#1}}
-\newcommand{\solution}[1]{\textcolor{red}{#1}}
+\newcommand{\problem}[1]{\noindent\textcolor{black}{#1}}
+\newcommand{\solution}[1]{\noindent\textcolor{red}{#1}}
 
 % Alternatively, defining environments for problems and solutions
 \newenvironment{Problem}
-{\color{black}}
-{}
+{\noindent\color{black}}
+{\newline}
 
 \newenvironment{Solution}
-{\color{red}}
-{}
+{\noindent\color{red}}
+{\newline}
 
 \begin{document}
 
 \maketitle
 
 % Using custom commands for inline coloring
-\section*{Problem 1}
-\problem{What is the capital of France?}
+\section*{1. True or False (10pts)}
+\problem{1)	Every element of a subset is also an element of the original set.}
 
-\solution{The capital of France is Paris.}
+\solution{True}
 
-% Using environments for block coloring
+
+\problem{2) The statement $(p \rightarrow q)$ is false only when $p$ is true, and $q$ is false.}
+
+\solution{True}
+
+
+\problem{3) The empty set is a subset of every set.}
+
+\solution{True}
+
+
+\problem{4) If $A \subseteq B$ and $B \subseteq A$, then $A$ and $B$ are equal.}
+
+\solution{True}
+ 
+
+\problem{5) The negation of the statement $(p \lor q)$ is logically equivalent to $(\sim p \land \sim q)$}
+
+\solution{True}
+
+
+\problem{6) The intersection of two sets is always non-empty.}
+
+\solution{False}
+
+
+\problem{7) If sets $A$ and $B$ are disjoint, they have no elements in common.}
+
+\solution{True}
+
+
+\problem{The converse of the statement $(p \rightarrow q)$ is logically equivalent to $(q \rightarrow p)$.}
+
+\solution{True}
+
+
+\problem{Here is a list data structure: $[1,2,2,3]$. When you convert this list to a set, the cardinality of that set is $4$.}
+
+\solution{False}
+
+
+
+\vspace*{27em}
+
+
+\section*{2. }
+
 \begin{Problem}
-\section*{Problem 2}
-What is the sum of 2 and 3?
+    (5pts) A survey was taken by 200 students on what courses they have taken. The
+    results show that 90 students took CS, 110 took Mathematics, 60 took
+    Physics, 20 took both CS and Math, 20 took both CS and Physics, and 30 took
+    both Math and Physics. How many students have taken course in all three
+    areas, including Mathematics, CS, and Physics? Please demonstrate your
+    stepwise analysis.
 \end{Problem}
 
+
 \begin{Solution}
-The sum of 2 and 3 is 5.
+    Let the set $U$ be the set of students who took the survey, $C$ be the set of students who have taken a course in computer science,
+    similarly let $M$ be the set for math,  $P$ for physics. 
+
+    \phantom{ }
+
+    Given: 
+    \begin{adjustwidth}{2em}{0em} 
+        $|U| = 200$
+
+        $|C \cup M \cup P| \leq 200$ 
+
+        $|C| = 90$
+
+        $|M| = 110$
+
+        $|P| = 60$
+
+        $|C \cap M| = 20$
+
+        $|C \cap P| = 20$
+        
+        $|M \cap P| = 30$ 
+    \end{adjustwidth}
+
+    \phantom{ }
+
+    Find: $|C \cap M \cap P| = x$
+
+    \phantom{ }
+
+    First let's isolates the different sections of the ven-diagram:
+
+    \begin{adjustwidth}{2em}{0em}
+        Students with all three classes:
+        \begin{adjustwidth}{2em}{0em}
+            $|C \cap M \cap P| = x$
+        \end{adjustwidth}
+
+        Students with only two classes:
+
+        \begin{adjustwidth}{2em}{0em}
+            $|(C \cap M) - (C \cap M \cap P)| = 20 - x$
+
+            $|(C \cap P) - (C \cap M \cap P)| = 20 - x$
+
+            $|(M \cap P)- (C \cap M \cap P)| = 30 - x$ 
+        \end{adjustwidth}
+
+        Students with only one class:
+
+        \begin{adjustwidth}{2em}{0em}
+            $|C - (M \cup P)|  = |C| - |(C \cap M) - (C \cap M \cap P)| - |(C \cap P) - (C \cap M \cap P)| - |C \cap M \cap P|$
+
+            \hspace*{6.585em}$ = 90 - (20 - x) - (20 - x) - x = 50 + x$
+
+            $|M - (C \cup P)| = |M| - |(C \cap M) - (C \cap M \cap P)| - |(M \cap P)- (C \cap M \cap P)| - |C \cap M \cap P|$
+
+            \hspace*{6.585em}$ = 110 - (20 - x) - (30 - x) - x = 60 + x$
+
+            $|P - (C \cup M)| = |P| - |(C \cap P) - (C \cap M \cap P)| - |(M \cap P)- (C \cap M \cap P)| - |C \cap M \cap P|$
+
+            \hspace*{6.585em}$ = 60 - (20 - x) - (30 - x) - x = 10 + x$
+        \end{adjustwidth}
+    \end{adjustwidth}
+
+    \ \\
+
+    Now let's add all the disjoint sets together:
+
+    $|C \cup M \cup P| = x + (20 - x) + (20 - x) + (30 - x) + (50 + x) + (60 + x) + (10 + x)$
+
+    \phantom{ }
+
+    \hspace*{5.71em}$= 190 + x \leq |U| = 200$
+
+    \phantom{ }
+
+    Therefore, between $0$ and $10$ students have taken all three courses. 
 \end{Solution}
+
+
+
+
+
+
+
+\vspace*{5em}
+
+
+
+
+\section*{3. }
+
+\begin{Problem}
+    (5pts) A detective has interviewed four witnesses of a crime. From the stories of the witnesses the detective has concluded that:
+    \begin{enumerate}
+        \item If the butler is lying, then so is the handy man.
+        \item The cook and the butler cannot both be telling the truth.
+        \item The cook and the gardener are not both lying.
+        \item If the butler is telling the truth, then the gardner is lying. 
+    \end{enumerate}
+
+    For each of the four witnesses, can the detective determine whether that person is telling the truth or lying? Use the truth table to explain your reasoning. Please use the following notations in your reasoning –
+    
+    \begin{adjustwidth}{5em}{0em}
+        $B$: The butler is telling the truth.
+
+        $C$: The cooking is telling the truth.
+
+        $G$: The gardener is telling the truth.
+
+        $H$: The handyman is telling the truth.
+    \end{adjustwidth}
+
+    \phantom{ }
+\end{Problem}
+
+\section*{4. }
+
+\begin{Problem}
+    Prove if $n \in \mathbb Z$, then $n^2+5n-3$ is odd.
+\end{Problem}
+
+
+\section*{5. }
+
+
+
+
+
+% % Using environments for block coloring
+% \begin{Problem}
+% \section*{Problem 2}
+% What is the sum of 2 and 3?
+% \end{Problem}
+
+% \begin{Solution}
+% The sum of 2 and 3 is 5.
+% \end{Solution}
 
 \end{document}
