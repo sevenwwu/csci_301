@@ -6,6 +6,7 @@
 \usepackage{titling}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{array}
 \droptitle = -1in
 
 % For setting page numbering, but you've already disabled it.
@@ -107,7 +108,7 @@
     \begin{adjustwidth}{2em}{0em} 
         $|U| = 200$
 
-        $|C \cup M \cup P| \leq 200$ 
+        $|C \cup M \cup P| = 200$ 
 
         $|C| = 90$
 
@@ -171,11 +172,13 @@
 
     \phantom{ }
 
-    \hspace*{5.71em}$= 190 + x \leq |U| = 200$
+    \hspace*{5.71em}$= 190 + x = |U| = 200$
+    
+    \hspace*{5.71em}$x = 10$
 
     \phantom{ }
 
-    Therefore, between $0$ and $10$ students have taken all three courses. 
+    Therefore, between $10$ students have taken all three courses. 
 \end{Solution}
 
 
@@ -215,16 +218,119 @@
     \phantom{ }
 \end{Problem}
 
+\begin{Solution}
+    Given (in symbols):
+    \begin{adjustwidth}{2em}{0em}
+        $\sim B \rightarrow \sim H$
+
+        $\sim (C \land B)$
+
+        $\sim (\sim C \land \sim G)$
+
+        $B \rightarrow \sim G$
+    \end{adjustwidth}
+
+    \phantom{ }
+
+    Derived:
+
+    \begin{adjustwidth}{2em}{0em}
+        $H \rightarrow B$
+
+        $(\sim C \lor \sim B) \equiv (C \rightarrow \sim B) \equiv (B \rightarrow \sim C)$
+
+        $(C \lor G) \equiv (\sim \sim C \lor G) \equiv (\sim C \rightarrow G)$
+
+        $G \rightarrow \sim B$
+    \end{adjustwidth}
+
+    If $H$, then $B$, $\sim C$, $G$, and $\sim B$.
+    This leads to contradiction, thus, $\sim H$
+
+    If $B$, then $\sim C$, $G$, and $\sim B$.
+    This leads to contradiction, thus, $\sim B$.
+
+    \phantom{ }
+
+    Solutions:
+
+    \begin{adjustwidth}{2em}{0em}
+        $\sim B \land \sim C \land G \land \sim H$
+
+        \hspace*{3.75em}$\text{ OR }$
+
+        $\sim B \land C \land G \land \sim H$
+
+        \hspace*{3.75em}$\text{ OR }$
+
+        $\sim B \land C \land \sim G \land \sim H$
+    \end{adjustwidth}
+
+    This can be confirmed by the below truth table, the table
+    can be read by looking for rows with all true statements
+    made by the detective. These rows correspond to some combination
+    of $B$, $C$, $G$, and $H$:
+
+    $$
+    \renewcommand{\arraystretch}{2}
+    \begin{array}{|c|c|c|c||c|c|c|c|}
+    \hline
+    B&C&G&H&\sim B \rightarrow \sim H&\sim (C \land B)&\sim (\sim C \land \sim G)&B \rightarrow \sim G \\
+    \hline\hline
+    \textsc{t}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{f} \\
+    \hline
+    \textsc{t}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{f} \\
+    \hline
+    \textsc{t}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t} \\
+    \hline
+    \textsc{t}&\textsc{t}&\textsc{f}&\textsc{f}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t} \\
+    \hline
+    \textsc{t}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{f} \\
+    \hline
+    \textsc{t}&\textsc{f}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{f} \\
+    \hline
+    \textsc{t}&\textsc{f}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t} \\
+    \hline
+    \textsc{t}&\textsc{f}&\textsc{f}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t} \\
+    \hline
+    \textsc{f}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t} \\
+    \hline
+    \textsc{f}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{t} \\
+    \hline
+    \textsc{f}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t} \\
+    \hline
+    \textsc{f}&\textsc{t}&\textsc{f}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{t} \\
+    \hline
+    \textsc{f}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t} \\
+    \hline
+    \textsc{f}&\textsc{f}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{t}&\textsc{t} \\
+    \hline
+    \textsc{f}&\textsc{f}&\textsc{f}&\textsc{t}&\textsc{f}&\textsc{t}&\textsc{f}&\textsc{t} \\
+    \hline
+    \textsc{f}&\textsc{f}&\textsc{f}&\textsc{f}&\textsc{t}&\textsc{t}&\textsc{f}&\textsc{t} \\
+    \hline
+    
+\end{array}
+    $$
+
+    \phantom{ }
+\end{Solution}
+
 \section*{4. }
 
 \begin{Problem}
-    Prove if $n \in \mathbb Z$, then $n^2+5n-3$ is odd.
+    (5pts) Prove if $n \in \mathbb Z$, then $n^2+5n-3$ is odd.
 \end{Problem}
 
 
 \section*{5. }
 
+\begin{Problem}
+    (5pts) Suppose $a, b \in \mathbb Z$ where $\mathbb Z$ denotes all integers. 
+    Try to prove the following statement using contraposition:
 
+    If $ab$ is even, then $a$ and $b$ are not both odd.
+\end{Problem}
 
 
 
