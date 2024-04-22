@@ -1,10 +1,14 @@
 #lang racket
 
 (define (member? x set)
-    (if [null? set]
-        #f
-        (if [equal? x (car set)]
+    (cond 
+        ([null? set]
+            #f
+        )
+        ([equal? x (car set)]
             #t
+        )
+        (else
             (member? x (cdr set))
         )
     )
@@ -18,19 +22,23 @@
 
 
 (define (subset? s1 s2)
-    (if [null? s1]
-        #t
-        (if [member? (car s1) s2]
+    (cond 
+        ([null? s1]
+            #t
+        )
+        ([member? (car s1) s2]
             (subset? (cdr s1) s2)
+        )
+        (else
             #f
         )
     )
 )
 
-;;; (subset? '(1 2 3) '(3 2 1));; ---> #t
+;;; (subset? '(1 2 3) '(3 2 1)) ;; ---> #t
 ;;; (subset? '(1 2 3) '(4 5 6)) ;; ---> #f
 ;;; (subset? '(1 2 3) '(1 2 3 4 5 6)) ;; ---> #t
-;;; (subset? '(1 2) '());; ---> #f
+;;; (subset? '(1 2) '()) ;; ---> #f
 
 
 (define (set-equal? s1 s2)
@@ -43,30 +51,38 @@
 
 
 (define (union s1 s2)
-    (if [null? s2]
-        s1
-        (if [member? (car s2) s1]
+    (cond 
+        ([null? s2] 
+            s1
+        )
+        ([member? (car s2) s1] 
             (union s1 (cdr s2))
+        )
+        (else 
             (union (append s1 (list (car s2))) (cdr s2))
         )
     )
 )
 
 (define (intersect s1 s2)
-    (if [null? s1]
-        '()
-        (if [member? (car s1) s2]
+    (cond 
+        ([null? s1] 
+            '()
+        )
+        ([member? (car s1) s2]
             (cons (car s1) (intersect (cdr s1) s2))
+        )
+        (else
             (intersect (cdr s1) s2)
         )
     )
 )
 
-(union '(1 2 3) '(3 2 1)) ;; ---> (1 2 3)
-(union '(1 2 3) '(3 4 5)) ;; ---> (1 2 3 4 5)
-(union '(a b c) '(3 2 1)) ;; ---> (a b c 1 2 3)
-(intersect '(1 2 3) '(3 2 1)) ;; ---> (1 2 3)
-(intersect '(1 2 3) '(4 5 6)) ;; ---> ()
-(intersect '(1 2 3) '(2 3 4 5 6)) ;; ---> (2 3)
+;;; (union '(1 2 3) '(3 2 1)) ;; ---> (1 2 3)
+;;; (union '(1 2 3) '(3 4 5)) ;; ---> (1 2 3 4 5)
+;;; (union '(a b c) '(3 2 1)) ;; ---> (a b c 1 2 3)
+;;; (intersect '(1 2 3) '(3 2 1)) ;; ---> (1 2 3)
+;;; (intersect '(1 2 3) '(4 5 6)) ;; ---> ()
+;;; (intersect '(1 2 3) '(2 3 4 5 6)) ;; ---> (2 3)
 
 
