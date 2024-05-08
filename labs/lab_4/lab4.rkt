@@ -67,9 +67,10 @@
 
 
 ;;; intersect checks to see if the first element of s1 is 
-;;; in the rest of s1 or not in s2. If either is the case
+;;; in the rest of s1 or in s2. If either is the case
 ;;; do not add it to the return list. Otherwise, the element
 ;;; is unique and should be included in the return list.
+;;; Then we join all the included items together on bubble up.
 ;;; This way shared elements only enter the return list once.
 (define (intersect s1 s2)
     (cond 
@@ -88,11 +89,9 @@
     )
 )
 
-(union '(1 2 3) '(3 2 2 1)) ;; ---> (1 2 3)
-(union '(1 2 3 2) '(3 4 5)) ;; ---> (1 2 3 4 5)
-(union '(a b c c) '(1 3 2 1)) ;; ---> (a b c 1 2 3)
-(intersect '(1 2 3 3) '(2 3 2 1)) ;; ---> (1 2 3)
-(intersect '(1 2 1 3) '(1 4 1 5 1 6)) ;; ---> (1)
-(intersect '(1 2 1 3) '(2 3 4 5 2 6)) ;; ---> (2 3)
-
-
+;;; (union '(1 2 3) '(3 2 2 1)) ;; ---> (1 2 3)
+;;; (union '(1 2 3 2) '(3 4 5)) ;; ---> (1 2 3 4 5)
+;;; (union '(a b c c) '(1 3 2 1)) ;; ---> (a b c 1 2 3)
+;;; (intersect '(1 2 3 3) '(2 3 2 1)) ;; ---> (1 2 3)
+;;; (intersect '(1 2 1 3) '(1 4 1 5 1 6)) ;; ---> (1)
+;;; (intersect '(1 2 1 3) '(2 3 4 5 2 6)) ;; ---> (2 3)
