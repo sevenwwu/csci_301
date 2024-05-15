@@ -1,6 +1,6 @@
 #lang racket
 
-;;; Previously Defined Procedures
+;;; Previously Defined Procedure
 
 (define (member? x set)
     (cond 
@@ -72,15 +72,13 @@
 ;;; Symmetric? iterates over each relation (a,b) and checks to 
 ;;; make sure that (b,a) is also in the the relations set. 
 (define (Symmetric? relations)
-    (cond
-        ([null? relations]
-            #t
-        )
-        ([member? (list (car (cdr (car relations))) (car (car relations))) relations]
-            (Symmetric? (remove (list (car (cdr (car relations))) (car (car relations))) (cdr relations)))
-        )
-        (else
-            #f
+    (if [null? relations]
+        #t
+        (let ([e1 (car (car relations))][e2 (car (cdr (car relations)))])
+            (if [member? (list e2 e1) relations]
+                (Symmetric? (remove (list e2 e1) (cdr relations)))
+                #f
+            )
         )
     )
 )
