@@ -78,3 +78,37 @@
 ;;; (Symmetric-Closure '()) ;   ---> '() 
 
 
+(define (Transitive-Closure relations)
+    (cond
+    
+    )
+)
+
+
+
+
+
+;;; (define (Transitive-Closure relations)
+;;;     (union '() (get-transitive-pairs relations relations))
+;;; )
+
+;;; (define (get-transitive-pairs iRelations relations)
+;;;     (if [null? iRelations]
+;;;         relations
+;;;         (let [])
+;;;     )
+;;; )
+
+;;; (define (get-transitive-pairs-helper current jRelations relations)
+;;;     (if [null? jRelations]
+;;;         relations
+;;;         (let ([a (car current)] [b (car (cdr current))] [x (car (car jRelations))] [y (car (cdr (car jRelations)))])
+;;;             (if [and (equal? b x) (not (member? (list a y) relations))]
+;;;                 (get-transitive-pairs-helper current (cdr jRelations) (cons (list a y) relations))
+;;;                 (get-transitive-pairs-helper current (cdr jRelations) relations)
+;;;             )
+;;;         )
+;;;     )
+;;; )
+
+;;; (Transitive-Closure '((a b) (b c) (c d) (d e)))
