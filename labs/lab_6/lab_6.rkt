@@ -79,36 +79,36 @@
 
 
 (define (Transitive-Closure relations)
-    (cond
-    
+    (transitive-closure-helper relations relations)
+)
+
+
+(define (transitive-closure-helper iRelations relations)
+    (if [null? iRelations]
+        relations
+        (let ([newPairs (add-transitive-pairs (car iRelations) relations relations)])
+            (transitive-closure-helper (append (cdr iRelations) newPairs) (append relations newPairs))
+        )
+    )
+)
+
+(define (add-transitive-pairs current jRelations relations)
+    (if [null? jRelations]
+        '()
+        (let ([a (car current)] [b (car (cdr current))] [x (car (car jRelations))] [y (car (cdr (car jRelations)))])
+            (if [and (equal? b x) (not (member? (list a y) relations))]
+                (cons (list a y) (add-transitive-pairs current (cdr jRelations) relations))
+                (add-transitive-pairs current (cdr jRelations) relations)
+            )
+        )
     )
 )
 
 
 
-
-
-;;; (define (Transitive-Closure relations)
-;;;     (union '() (get-transitive-pairs relations relations))
-;;; )
-
-;;; (define (get-transitive-pairs iRelations relations)
-;;;     (if [null? iRelations]
-;;;         relations
-;;;         (let [])
-;;;     )
-;;; )
-
-;;; (define (get-transitive-pairs-helper current jRelations relations)
-;;;     (if [null? jRelations]
-;;;         relations
-;;;         (let ([a (car current)] [b (car (cdr current))] [x (car (car jRelations))] [y (car (cdr (car jRelations)))])
-;;;             (if [and (equal? b x) (not (member? (list a y) relations))]
-;;;                 (get-transitive-pairs-helper current (cdr jRelations) (cons (list a y) relations))
-;;;                 (get-transitive-pairs-helper current (cdr jRelations) relations)
-;;;             )
-;;;         )
-;;;     )
-;;; )
-
-;;; (Transitive-Closure '((a b) (b c) (c d) (d e)))
+(Transitive-Closure '((a b) (b c) (a c)))  ;  ---> '((a b) (b c) (a c)) 
+(Transitive-Closure '((a a) (b b) (c c)))  ;  ---> '((a a) (b b) (c c)) 
+(Transitive-Closure '((a b) (b a)))  ;  ---> '((a b) (b a) (a a) (b b))) 
+(Transitive-Closure '((a b) (b a) (a a))) ;  ---> '((a b) (b a) (a a) (b b)) 
+(Transitive-Closure '((a b) (b a) (a a) (b b))) ;  ---> '((a b) (b a) (a a) (b b)) 
+(Transitive-Closure '()) ;  ---> '() 
