@@ -26,15 +26,64 @@ public class FiniteAutomaton<T>
         ValidateTransitionFunction();
     }
 
-    // Nondeterministic Finite Automaton
-    public static FiniteAutomaton<HashSet<T>> NonDeterministicFiniteAutomaton
-    (HashSet<T> states, HashSet<char> alphabet, Dictionary<(T, char), ImmutableHashSet<T>> transitionFunction,
-                            T startState, HashSet<T> acceptStates)
-    {
-        var States = new HashSet<HashSet<T>>();
+    // // Nondeterministic Finite Automaton
+    // public static FiniteAutomaton<ImmutableHashSet<T>> NonDeterministicFiniteAutomaton
+    // (HashSet<T> states, HashSet<char> alphabet, Dictionary<(T, char), ImmutableHashSet<T>> transitionFunction,
+    //                         T startState, HashSet<T> acceptStates)
+    // {
+    //     var States = PowerSet(states);
 
-        foreach 
+    //     var Alphabet = new HashSet<char>(alphabet);
+    //     Alphabet.Remove('\0');
+
+         
+    // }
+
+    public static HashSet<HashSet<T>> PowerSet(HashSet<T> states)
+    {   
+        HashSet<HashSet<T>> returnVal = [];
+        for (int i = 0; i <= states.Count; i++)
+        {
+            returnVal.UnionWith(ChooseK(states,i));
+        }
+
+        return returnVal;
     }
+
+    public static HashSet<HashSet<T>> ChooseK(HashSet<T> states, int k)
+    {
+        HashSet<HashSet<T>> result = new HashSet<HashSet<T>>();
+        if (k == 0)
+        {
+            result.Add(new HashSet<T>());
+            return result;
+        }
+        if (states.Count == 0)
+        {
+            return result;
+        }
+
+        T firstElement = default(T);
+        foreach (T element in states)
+        {
+            firstElement = element;
+            break;
+        }
+
+        HashSet<T> remainingElements = new HashSet<T>(states);
+        remainingElements.Remove(firstElement);
+
+        foreach (HashSet<T> subset in ChooseK(remainingElements, k - 1))
+        {
+            subset.Add(firstElement);
+            result.Add(subset);
+        }
+
+        result.UnionWith(ChooseK(remainingElements, k));
+
+        return result;
+    }
+
 
     private void ValidateStartState()
     {
