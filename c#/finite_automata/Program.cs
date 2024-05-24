@@ -8,25 +8,24 @@ public class Program
     public static void Main()
     {
         var machine = FiniteAutomaton<int>.NonDeterministicFiniteAutomaton(
-            [1,2,3,4,5],
+            [1,2,3],
             ['a','b','\0'],
             new Dictionary<(int, char), HashSet<int>>
             {
                 {(1,'\0'),[2]},
-                {(2,'\0'),[1,3]},
                 {(1,'a'),[3]},
-                {(2,'a'),[4,5]},
-                {(3,'b'),[4]},
-                {(4,'a'),[5]},
-                {(4,'b'),[5]}
+                {(2,'a'),[1]},
+                {(3,'a'),[2]},
+                {(3,'b'),[2,3]}
             },
             1,
-            [5]
+            [2]
         );
 
         machine.States.PrintAll<int>();
         Console.WriteLine();
         machine.Alphabet.Print<char>();
+        Console.WriteLine();
         Console.WriteLine();
         machine.TransitionFunction.Print();
         Console.WriteLine();
