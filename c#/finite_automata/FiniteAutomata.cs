@@ -16,12 +16,13 @@ public class FiniteAutomaton<T>
     public FiniteAutomaton(HashSet<T> states, HashSet<char> alphabet, Dictionary<(T, char), T> transitionFunction,
                             T startState, HashSet<T> acceptStates)
     {
-        States = states;
-        Alphabet = alphabet;
-        TransitionFunction = transitionFunction;
+        States = new HashSet<T>(states);
+        Alphabet = new HashSet<char>(alphabet);
+        TransitionFunction = new Dictionary<(T, char), T>(transitionFunction);
         StartState = startState;
-        AcceptStates = acceptStates;
+        AcceptStates = new HashSet<T>(acceptStates);
 
+        ValidateAlphabet();
         ValidateStartState();
         ValidateAcceptStates();
         ValidateTransitionFunction();
@@ -147,6 +148,13 @@ public class FiniteAutomaton<T>
         return result;
     }
 
+    private void ValidateAlphabet()
+    {
+        if (Alphabet.Contains('\0'))
+        {
+            throw new ArgumentException($"Alphabet may not contain the empty string '\\0'");
+        }
+    }
 
     private void ValidateStartState()
     {
