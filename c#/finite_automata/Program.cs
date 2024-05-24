@@ -134,7 +134,7 @@ public class Program
 
 public static class PrintShit
 {
-    public static void PrintAll<T>(this ImmutableHashSet<HashSet<T>> hashSetOfHashSets)
+    public static void PrintAll<T>(this HashSet<HashSet<T>> hashSetOfHashSets)
     {
         foreach (var innerHashSet in hashSetOfHashSets)
         {
@@ -153,17 +153,7 @@ public static class PrintShit
         Console.Write("]");
     }
 
-    public static void Print<T>(this ImmutableHashSet<T> hashSet)
-    {
-        Console.Write("[");
-        foreach (var item in hashSet)
-        {
-            Console.Write(item + ", ");
-        }
-        Console.Write("]");
-    }
-
-    public static void Print(this ImmutableDictionary<(HashSet<int>, char), HashSet<int>> dictionary)
+    public static void Print(this Dictionary<(HashSet<int>, char), HashSet<int>> dictionary)
     {
         foreach (var kvp in dictionary)
         {

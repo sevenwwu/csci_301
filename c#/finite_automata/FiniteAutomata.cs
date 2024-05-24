@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 
 // TODO:
 //  - Validate Methods
@@ -8,20 +7,20 @@ using System.Collections.Immutable;
 
 public class FiniteAutomaton<T>
 {
-    public readonly ImmutableHashSet<T> States;
-    public readonly ImmutableHashSet<char> Alphabet;
-    public readonly ImmutableDictionary<(T, char), T> TransitionFunction;
-    public readonly T StartState;
-    public readonly ImmutableHashSet<T> AcceptStates;
+    public HashSet<T> States { get; }
+    public HashSet<char> Alphabet { get; }
+    public Dictionary<(T, char), T> TransitionFunction { get; }
+    public T StartState { get; }
+    public HashSet<T> AcceptStates { get; }
 
     public FiniteAutomaton(HashSet<T> states, HashSet<char> alphabet, Dictionary<(T, char), T> transitionFunction,
                             T startState, HashSet<T> acceptStates)
     {
-        States = states.ToImmutableHashSet(states.Comparer);
-        Alphabet = alphabet.ToImmutableHashSet(alphabet.Comparer);
-        TransitionFunction = transitionFunction.ToImmutableDictionary(transitionFunction.Comparer);
+        States = states;
+        Alphabet = alphabet;
+        TransitionFunction = transitionFunction;
         StartState = startState;
-        AcceptStates = acceptStates.ToImmutableHashSet(acceptStates.Comparer);
+        AcceptStates = acceptStates;
 
         ValidateStartState();
         ValidateAcceptStates();
