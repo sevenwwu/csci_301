@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-
+// TODO:
+//  - Validate Methods
+//  - Maybe fix the fact that StartState is modifiable
 
 public class FiniteAutomaton<T>
 {
@@ -15,33 +17,100 @@ public class FiniteAutomaton<T>
     public FiniteAutomaton(HashSet<T> states, HashSet<char> alphabet, Dictionary<(T, char), T> transitionFunction,
                             T startState, HashSet<T> acceptStates)
     {
-        States = states.ToImmutableHashSet();
-        Alphabet = alphabet.ToImmutableHashSet();
-        TransitionFunction = transitionFunction.ToImmutableDictionary();
+        States = states.ToImmutableHashSet(states.Comparer);
+        Alphabet = alphabet.ToImmutableHashSet(alphabet.Comparer);
+        TransitionFunction = transitionFunction.ToImmutableDictionary(transitionFunction.Comparer);
         StartState = startState;
-        AcceptStates = acceptStates.ToImmutableHashSet();
+        AcceptStates = acceptStates.ToImmutableHashSet(acceptStates.Comparer);
 
         ValidateStartState();
         ValidateAcceptStates();
         ValidateTransitionFunction();
     }
 
-    // // Nondeterministic Finite Automaton
-    // public static FiniteAutomaton<ImmutableHashSet<T>> NonDeterministicFiniteAutomaton
-    // (HashSet<T> states, HashSet<char> alphabet, Dictionary<(T, char), ImmutableHashSet<T>> transitionFunction,
-    //                         T startState, HashSet<T> acceptStates)
-    // {
-    //     var States = PowerSet(states);
+    // Nondeterministic Finite Automaton
+    public static FiniteAutomaton<HashSet<T>> NonDeterministicFiniteAutomaton
+    (HashSet<T> states, HashSet<char> alphabet, Dictionary<(T, char), HashSet<T>> transitionFunction,
+                            T startState, HashSet<T> acceptStates)
+    {
+        var States = PowerSet(states);
 
-    //     var Alphabet = new HashSet<char>(alphabet);
-    //     Alphabet.Remove('\0');
+        var Alphabet = new HashSet<char>(alphabet);
+        Alphabet.Remove('\0');
 
-         
-    // }
+        var TransitionFunction = ConvertToDeterministicFunction(transitionFunction,States,Alphabet);
+
+        var StartState = EmptyStringClosure([startState],transitionFunction);
+
+        var AcceptStates = ConvertToDeterministicAcceptStates(States,acceptStates);
+
+
+        return new FiniteAutomaton<HashSet<T>>(States,Alphabet,TransitionFunction,StartState,AcceptStates);
+    }
+
+    public static HashSet<HashSet<T>> ConvertToDeterministicAcceptStates(HashSet<HashSet<T>> states, HashSet<T> acceptStates)
+    {
+        var returnVal = new HashSet<HashSet<T>>(new HashSetEqualityComparer<T>());
+        foreach (var state in states)
+        {
+            if (state.Intersect(acceptStates).Any())
+            {
+                returnVal.Add(new HashSet<T>(state));
+            }
+        }
+
+        return returnVal;
+    }
+
+    public static Dictionary<(HashSet<T>,char), HashSet<T>> ConvertToDeterministicFunction
+    (Dictionary<(T, char), HashSet<T>> transitionFunction, HashSet<HashSet<T>> states, HashSet<char> alphabet)
+    {
+        var returnVal = new Dictionary<(HashSet<T>,char), HashSet<T>>(new HashSetCharEqualityComparer<T>());
+        foreach (var state_set in states)
+        {
+            foreach (var chr in alphabet)
+            {
+                var currentTransitionValue = new HashSet<T>();
+                foreach (var state in state_set)
+                {
+                    if (transitionFunction.ContainsKey((state, chr)))
+                    {
+                        var emptyStringClosure = EmptyStringClosure(transitionFunction[(state,chr)],transitionFunction);
+                        currentTransitionValue.UnionWith(emptyStringClosure);
+                    }
+                }
+                returnVal.Add((state_set,chr),currentTransitionValue);
+            }
+        }
+
+        return returnVal;
+    }
+
+    public static HashSet<T> EmptyStringClosure(HashSet<T> states, Dictionary<(T, char), HashSet<T>> transitionFunction)
+    {   
+        HashSet<T> returnVal = new HashSet<T>();
+
+        EmptyStringClosureHelper(states,transitionFunction,returnVal);
+
+        return returnVal;
+    }
+
+    public static void EmptyStringClosureHelper(HashSet<T> states, Dictionary<(T, char), HashSet<T>> transitionFunction, HashSet<T> visited)
+    {
+        foreach (var state in states.Except(visited))
+        {
+            visited.Add(state);
+            if (transitionFunction.ContainsKey((state,'\0')))
+            {
+                EmptyStringClosureHelper(transitionFunction[(state,'\0')],transitionFunction,visited);
+            }
+        }
+    }
+
 
     public static HashSet<HashSet<T>> PowerSet(HashSet<T> states)
     {   
-        HashSet<HashSet<T>> returnVal = [];
+        var returnVal = new HashSet<HashSet<T>>(new HashSetEqualityComparer<T>());
         for (int i = 0; i <= states.Count; i++)
         {
             returnVal.UnionWith(ChooseK(states,i));
@@ -63,12 +132,7 @@ public class FiniteAutomaton<T>
             return result;
         }
 
-        T firstElement = default(T);
-        foreach (T element in states)
-        {
-            firstElement = element;
-            break;
-        }
+        T firstElement = states.FirstOrDefault() ?? throw new ArgumentNullException("HashSet Elements must not be null");
 
         HashSet<T> remainingElements = new HashSet<T>(states);
         remainingElements.Remove(firstElement);
@@ -188,5 +252,59 @@ public class FiniteAutomaton<T>
         } 
 
         return new FiniteAutomaton<(T1,T2)>(states,alphabet,transitionFunction,startState,acceptStates);
+    }
+}
+
+
+public class HashSetEqualityComparer<T> : IEqualityComparer<HashSet<T>>
+{
+    public bool Equals(HashSet<T>? x, HashSet<T>? y)
+    {
+        if (x == null || y == null)
+            return x == y;
+
+        return x.SetEquals(y);
+    }
+
+    public int GetHashCode(HashSet<T> obj)
+    {
+        if (obj == null)
+            return 0;
+
+        int hash = 0;
+        foreach (var item in obj)
+        {
+            hash ^= item?.GetHashCode() ?? 17;
+        }
+        return hash;
+    }
+}
+
+public class HashSetCharEqualityComparer<T> : IEqualityComparer<(HashSet<T>, char)>
+{
+    public bool Equals((HashSet<T>, char) x, (HashSet<T>, char) y)
+    {
+        var (setX, charX) = x;
+        var (setY, charY) = y;
+
+        if (setX == null || setY == null)
+            return setX == setY && charX == charY;
+
+        return setX.SetEquals(setY) && charX == charY;
+    }
+
+    public int GetHashCode((HashSet<T>, char) obj)
+    {
+        var (set, character) = obj;
+
+        if (set == null)
+            return character.GetHashCode();
+
+        int hash = character.GetHashCode();
+        foreach (var item in set)
+        {
+            hash ^= item?.GetHashCode() ?? 17;
+        }
+        return hash;
     }
 }
