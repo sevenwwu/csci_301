@@ -16,11 +16,11 @@ public class FiniteAutomaton<T>
     public FiniteAutomaton(HashSet<T> states, HashSet<char> alphabet, Dictionary<(T, char), T> transitionFunction,
                             T startState, HashSet<T> acceptStates)
     {
-        States = new HashSet<T>(states);
-        Alphabet = new HashSet<char>(alphabet);
-        TransitionFunction = new Dictionary<(T, char), T>(transitionFunction);
+        States = new HashSet<T>(states,states.Comparer);
+        Alphabet = new HashSet<char>(alphabet,alphabet.Comparer);
+        TransitionFunction = new Dictionary<(T, char), T>(transitionFunction,transitionFunction.Comparer);
         StartState = startState;
-        AcceptStates = new HashSet<T>(acceptStates);
+        AcceptStates = new HashSet<T>(acceptStates,acceptStates.Comparer);
 
         ValidateAlphabet();
         ValidateStartState();
@@ -97,12 +97,13 @@ public class FiniteAutomaton<T>
 
     public static void EmptyStringClosureHelper(HashSet<T> states, Dictionary<(T, char), HashSet<T>> transitionFunction, HashSet<T> visited)
     {
-        foreach (var state in states.Except(visited))
+        while (states.Except(visited).Any())
         {
-            visited.Add(state);
-            if (transitionFunction.ContainsKey((state,'\0')))
+            T currState = states.Except(visited).First();
+            visited.Add(currState);
+            if (transitionFunction.ContainsKey((currState,'\0')))
             {
-                EmptyStringClosureHelper(transitionFunction[(state,'\0')],transitionFunction,visited);
+                EmptyStringClosureHelper(transitionFunction[(currState,'\0')],transitionFunction,visited);
             }
         }
     }
